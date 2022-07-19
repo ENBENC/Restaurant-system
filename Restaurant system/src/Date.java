@@ -9,6 +9,17 @@ class Date implements Comparable<Date>{
     }
 
     public int compareTo(Date d){
+        /*
+        Take an other Date-object that we want to compare with this Date-obejct.
+        If dateString is larger then return 1, if same return 0, if smaller
+        return -1.
+        EX:
+        Assume this Date is "1991/MM/DD HH:MM:SS"
+        compare with "2000/MM/DD HH:MM:SS", will return -1.
+
+        Args: d (Date)
+        Return: a int -1 or 0 or 1 (int)
+        */
         if(this.getYear() > d.getYear()){
             return 1;
         }

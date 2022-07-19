@@ -34,12 +34,7 @@ class Test{
             Args: dateStrings(String[])
             Return: None
         */
-        ArrayList<Date> lst = new ArrayList<Date>();
-        for(String s : dateStrings){
-            String date = s.split(" ")[0];
-            String time = s.split(" ")[1];
-            lst.add(new Date(date,time));
-        }
+        ArrayList<Date> lst = makeDates(dateStrings);
 
         Collections.sort(lst);
 
@@ -55,6 +50,67 @@ class Test{
         }
         System.out.println("Test testDateOrderSmallToLarge done!" + "\n");
     }
+
+    public static void testSortedLinkedListWithReservation(String... dateStrings){
+        /*
+        Test Reservation and sortedList.
+        Where create amont of Reservation and put them into the SortedLinkedList.
+        Then take them out one by one.
+        Since we remove the first element, therefor the element must be smaller
+        or equal than element after it.
+
+        Args: dateStrings(String[])
+        Return: None
+        */
+        SortedLinkedList<Reservation> sortedList = new SortedLinkedList<Reservation>();
+        ArrayList<Reservation> reservationLst = new ArrayList<Reservation>();
+
+        for(String d : dateStrings){
+            reservationLst.add(new Reservation("None",d,"None","None","None"));
+        }
+
+        for(Reservation r : reservationLst){
+            sortedList.add(r);
+        }
+        assert sortedList.size() == reservationLst.size();
+
+        int index = 0;
+        Reservation currentReservation = null;
+        for(int i=0;i<dateStrings.length;i++){
+            if(index-1 < 0){
+                currentReservation = sortedList.remove();
+                index += 1;
+            }
+            else{
+                Reservation tmp = sortedList.remove();
+                assert (currentReservation.compareTo(tmp)) <= 0;
+                currentReservation = tmp;
+                index += 1;
+            }
+        }
+        System.out.println(currentReservation);
+
+        assert sortedList.size() == 0;
+    }
+
+    public static ArrayList<Date> makeDates(String[] dateStrings){
+        /*
+        A function that take a array of dateStrings, and make Date-objects.
+        Then return it in a ArrayList of Date.
+
+        Args: dateStrings (String[])
+        Return: lst (ArrayList<Date>)
+        */
+        ArrayList<Date> lst = new ArrayList<Date>();
+        for(String s : dateStrings){
+            String date = s.split(" ")[0];
+            String time = s.split(" ")[1];
+            lst.add(new Date(date,time));
+        }
+        return lst;
+    }
+
+
 
     public static void main(String[] args) {
     /*
@@ -79,7 +135,10 @@ class Test{
        testDateOrderSmallToLarge(dateString1,dateString2,dateString4,dateString3,dateString5,dateString6);
        System.out.println("All tests on Date-object done!" + "\n");
 
-       SortedLinkedList<Reservation> s = new SortedLinkedList<Reservation>();
+       System.out.println("-----------------------------------------------------");
+       System.out.println("Test SortedLinkedList and Reservation..." + "\n");
+       testSortedLinkedListWithReservation(dateString1,dateString2,dateString4,dateString3,dateString5,dateString6);
+       System.out.println("All tests on SortedLinkedList and Reservation done!" + "\n");
 
        System.out.println("All test done!");
       }

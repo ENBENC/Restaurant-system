@@ -4,15 +4,19 @@ class Reservation implements Comparable<Reservation>{
     private Date date;
     private String[] info;
 
-    public Reservation(String guest_name, String date, String time, String note, String guest_number, String table_number){
+    public Reservation(String guest_name, String dateString, String note, String guest_number, String table_number){
         this.guest_name = guest_name;
-        this.guest_number = guest_number;
-        this.date = new Date(date, time);
         this.note = note;
         this.guest_number = guest_number;
         this.table_number = table_number;
 
-        this.info = new String[]{this.guest_name,this.guest_number,this.guest_number,this.table_number,this.date.toString()};
+        //Create Date object based on the given dateString
+        String d = dateString.split(" ")[0];
+        String t = dateString.split(" ")[1];
+        this.date = new Date(d,t);
+
+        //Gather all information of Reservation-object into an array.
+        this.info = new String[]{this.guest_name,this.guest_number,this.table_number,this.date.toString(),this.note};
     }
 
     public int compareTo(Reservation r){
@@ -33,5 +37,17 @@ class Reservation implements Comparable<Reservation>{
 
     public String[] getReservationInfo(){
         return info;
+    }
+    @Override
+    public String toString(){
+        /*
+        Return a string in format of
+        guest_name /+/ guest_number /+/ table_number /+/ YYYY/MM/DD HH:MM:SS /+/ note /+/
+        */
+        String string = "";
+        for(String s : info){
+            string += s + " /+/ ";
+        }
+        return string;
     }
 }
